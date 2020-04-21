@@ -7,6 +7,7 @@ import endOfDay from "date-fns/endOfDay";
 import endOfISOWeek from "date-fns/endOfISOWeek";
 import endOfMonth from "date-fns/endOfMonth";
 import format from "date-fns/format";
+import parse from "date-fns/parse";
 import getDay from "date-fns/getDay";
 import getISODay from "date-fns/getISODay";
 import isSameDay from "date-fns/isSameDay";
@@ -32,6 +33,14 @@ export function add(date, quantity, unit) {
     default:
       throw unsupported('add', ...arguments);
   }
+}
+
+export function parseDate(dateString, dateFormat) {
+  const normalizedFormat = normalizeDateFormat(dateFormat);
+  return parse(dateString, normalizedFormat, new Date(), {
+    useAdditionalDayOfYearTokens: false,
+    useAdditionalWeekYearTokens: false
+  });
 }
 
 export function formatDate(date, dateFormat) {
@@ -91,7 +100,7 @@ export function getWeekdaysMin() {
     console.debug("Calling `getWeekdaysMin` with ember-power-calendar-date-fns is discouraged as date-fns has no locale detection implemented. " +
       "Please overwrite the power-calendar days component `weekdaysMin` method.");
   }
-  return ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+  return ["S", "M", "T", "W", "T", "F", "S"];
 }
 
 export function getWeekdays() {

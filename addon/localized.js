@@ -5,6 +5,7 @@ import locales from "date-fns/locale";
 
 import _startOfWeek from "date-fns/startOfWeek";
 import format from "date-fns/format";
+import parse from "date-fns/parse";
 import getDay from "date-fns/getDay";
 import {
   getWeekdaysShort as unlocalizedWeekdaysShort,
@@ -35,6 +36,26 @@ export {
   startOfWeek,
   endOfWeek
 } from './unlocalized';
+
+export function parseDate(dateString, dateFormat, locale = null) {
+  /* date-fns now uses [Unicode Tokens]{@link https://date-fns.org/v2.2.1/docs/Unicode-Tokens} so the following flags are required:
+     - useAdditionalDayOfYearTokens is required to use the YYYY and YY tokens for year
+     - useAdditionalWeekYearTokens is required to use the DD and D tokens for day
+   */
+  const normalizedFormat = normalizeDateFormat(dateFormat);
+  if(locale && locales[locale]) {
+    return parse(dateString, normalizedFormat, new Date(), {
+      locale: locales[locale],
+      useAdditionalDayOfYearTokens: false,
+      useAdditionalWeekYearTokens: false
+    });
+  } else {
+    return parse(dateString, normalizedFormat, new Date(), {
+      useAdditionalDayOfYearTokens: false,
+      useAdditionalWeekYearTokens: false
+    });
+  }
+}
 
 export function formatDate(date, dateFormat, locale = null) {
   /* date-fns now uses [Unicode Tokens]{@link https://date-fns.org/v2.2.1/docs/Unicode-Tokens} so the following flags are required:
