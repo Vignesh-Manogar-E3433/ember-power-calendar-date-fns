@@ -2,6 +2,7 @@
 import addDays from "date-fns/addDays";
 import addMonths from "date-fns/addMonths";
 import addWeeks from "date-fns/addWeeks";
+import addYears from "date-fns/addYears";
 import differenceInMilliseconds from "date-fns/differenceInMilliseconds";
 import endOfDay from "date-fns/endOfDay";
 import endOfISOWeek from "date-fns/endOfISOWeek";
@@ -30,6 +31,8 @@ export function add(date, quantity, unit) {
       return addDays(date, quantity);
     case "month":
       return addMonths(date, quantity);
+    case "year":
+      return addYears(date, quantity);
     default:
       throw unsupported('add', ...arguments);
   }
